@@ -5,26 +5,19 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 
 interface Props {
-  handleSearchClick: (summonerName: string, region: string) => void;
+  setProperty: (data: {[key: string]: any}) => void;
+  handleSearchClick: () => void;
+  summonerName: string;
+  region: string;
 }
 
 class Search extends React.Component<Props> {
-  state = {
-    summonerName: 'sir Merr',
-    region: 'NA1'
-  }
-
   handleSelect = (event: any) => {
-    this.setState({region: event.target.value});
+    this.props.setProperty({region: event.target.value});
   };
 
-  handleNameChange = (event: React.FormEvent<HTMLInputElement>) => {
-    this.setState({summonerName: event.currentTarget.value});
-  }
-
-  // change any to proper event type in later iterations
-  handleClick = () => {
-    this.props.handleSearchClick(this.state.summonerName, this.state.region);
+  handleNameChange = (event: any) => {
+    this.props.setProperty({summonerName: event.currentTarget.value});
   }
 
   public render() {
@@ -37,11 +30,11 @@ class Search extends React.Component<Props> {
       <div>
         <TextField
           label='Summoner Name'
-          value={this.state.summonerName}
+          value={this.props.summonerName}
           onChange={this.handleNameChange}
         />
         <Select
-          value={this.state.region}
+          value={this.props.region}
           onChange={this.handleSelect}
         >
           {menus}
@@ -49,7 +42,7 @@ class Search extends React.Component<Props> {
         <Button 
           variant="contained" 
           color="primary"
-          onClick={this.handleClick}
+          onClick={this.props.handleSearchClick}
         >
           Search 
         </Button>

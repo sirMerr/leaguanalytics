@@ -6,44 +6,53 @@ import {compileData} from './api/calls';
 
 class App extends React.Component {
 
-  constructor(props: {}) {
+  constructor(props : {}) {
     super(props);
-    this.updateData = this.updateData.bind(this);
-    this.handleSearchClick = this.updateData.bind(this);
+    this.updateData = this
+      .updateData
+      .bind(this);
+    this.handleSearchClick = this
+      .handleSearchClick
+      .bind(this);
+    this.setProperty = this
+      .setProperty
+      .bind(this);
   }
 
-	state = {
+  state = {
     summonerName: 'sirMerr',
     summonerId: null,
     region: 'NA1',
     data: []
   }
 
-  async updateData(summonerName: string) {
-    const data = await compileData(summonerName);
-    this.setState({data})
+  async updateData(summonerName : string, region : string) {
+    const data = await compileData(summonerName, region);
+    console.log(data);
+    this.setState({data});
   }
 
-  handleSearchClick(summonerName: string, region: string) {
-    this.setState({ summonerName, region})
-  }
-  
-	handleSearch(summonerName: string) {
-    this.setState({summonerName})
+  setProperty(updatedProperty : {
+    [key : string]: any
+  }) {
+    this.setState(updatedProperty);
   }
 
-  componentDidUpdate(prevProps: any, prevState: any){
-    if (this.state.summonerName !== prevState.summonerName) {
-      this.updateData(this.state.summonerName);
-    }
+  handleSearchClick() {
+    this.updateData(this.state.summonerName, this.state.region);
   }
 
-  public render() {	
+  public render() {
     return (
       <div className="App">
-          <h1 className="App-title">🎮 Leaguanalytics 📈</h1>
-				<Search handleSearchClick={this.handleSearchClick}/>
-				<DataTable/>
+        <h1 className="App-title">🎮 Leaguanalytics 📈</h1>
+        <Search
+          setProperty={this.setProperty}
+          handleSearchClick={this.handleSearchClick}
+          summonerName={this.state.summonerName}
+          region={this.state.region}
+        />
+        <DataTable/>
       </div>
     );
   }

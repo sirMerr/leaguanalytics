@@ -2,16 +2,26 @@
  * @todo handle bad requests and errors
  * @todo generic URL builder
  * @todo type return values
+ * 
+ * Ended up not using a library since I had started before
+ * knowing that I could ^^
  */
 import fetch from 'node-fetch';
 
-const LEAGUE_API_URL='https://cors-anywhere.herokuapp.com/' + process.env.REACT_APP_LEAGUE_API_URL;
+// For demo purposes D:!
+const LEAGUE_API_KEY='RGAPI-98e5cc82-27b8-4f1f-ae3e-90e13c583dd5'
+let baseUrl = '';
+
+const buildUrl = (region: string) => 
+     `https://cors-anywhere.herokuapp.com/https://${region}.api.riotgames.com`
+
+console.log(process.env);
 
 // cors is added with cors-anywhere for the purpose of this app to not have to make our own server proxy
 const options = {
     headers: {
         'Access-Control-Allow-Origin': '*',
-        "X-Riot-Token": process.env.REACT_APP_LEAGUE_API_KEY!
+        "X-Riot-Token": LEAGUE_API_KEY
     },
     mode: 'cors'
 }
@@ -33,11 +43,8 @@ export interface IMatchInfo {
 
 let matchInfo: IMatchInfo[] = [];
 
-const getAccountId = async (summonerName: string) => {
-    const url = LEAGUE_API_URL! + '/lol/summoner/v3/summoners/by-name/' + summonerName;
-    
-    console.log(process.env);
-    console.log(url);
+const getAccountId = async (summonerName: string, region: string) => {
+    const url = baseUrl + '/lol/summoner/v3/summoners/by-name/' + summonerName;
 
     const res = await fetch(url, options);
     const json = await res.json();
@@ -48,7 +55,7 @@ const getAccountId = async (summonerName: string) => {
 // @todo accept start time/index
 const getMatchList = async (accountId: number): Promise<Array<any>> => {
     // Should make a url generic builder 
-    const url = LEAGUE_API_URL! + '/lol/match/v3/matchlists/by-account/' + accountId + '/?endIndex=10';
+    const url = baseUrl + '/lol/match/v3/matchlists/by-account/' + accountId + '/?endIndex=10';
 
     const res = await fetch(url, options);
     const json = await res.json();
@@ -57,7 +64,7 @@ const getMatchList = async (accountId: number): Promise<Array<any>> => {
 }
 
 const getChampionName = async (championId: number) => {
-    const url = LEAGUE_API_URL! + '/lol/static-data/v3/champions/' + championId;
+    const url = baseUrl + '/lol/static-data/v3/champions/' + championId;
     
     const res = await fetch(url, options);
     const json = await res.json();
@@ -65,8 +72,9 @@ const getChampionName = async (championId: number) => {
     return json.name;
 }
 
-export const compileData = async (summonerName: string) => {
-    const accountId = await getAccountId(summonerName);
+export const compileData = async (summonerName: string, region: string) => {
+    baseUrl = buildUrl(region);
+    const accountId = await getAccountId(summonerName, region);
     const matchList = await getMatchList(accountId);
     // get all champion ids from each match
     let championIds: number[] = [];
@@ -80,17 +88,19 @@ export const compileData = async (summonerName: string) => {
         })
 
         // Only push unique champions for future requests
-        if (championIds.indexOf(champion) !== -1) {
+        if (championIds.indexOf(champion) === -1) {
             championIds.push(champion);
         }
     });
+
+    console.log(matchList);
+    console.log(championIds);
 
     const championNames = await Promise.all(championIds.map(id => {
         getChampionName(id);
     }));
 
-
-
+    console.log(championNames);
     
     return championNames;
 
