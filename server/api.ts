@@ -25,7 +25,7 @@ const getAccountId = async (summonerName: string, region: REGIONS) => {
 
 const getMatchList = async (accountId: number) => {
     const matchList = await kayn.Matchlist.by.accountID(accountId).query({
-        endIndex: 2
+        endIndex: 10
     });
 
     return matchList.matches;
