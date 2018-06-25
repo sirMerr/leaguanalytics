@@ -2,22 +2,22 @@ import './App.css';
 import * as React from 'react';
 import DataTable from "./components/DataTable";
 import Search from "./components/Search";
-// import { compileData, getChampionName, getItemName, getSummonerSpell, getAllIdNames } from './api/calls';
-import {IMatchInfo} from './api/interfaces';
+import {IMatchInfo} from '../../server/interfaces';
 
 interface State {
-    summonerName: string,
-    summonerId: number | null,
-    region: string,
-    data: Array<IMatchInfo>,
-    champions: {[key: number]: string},
-    itemNames: {[key: number]: {
-      description: string,
-      id: number,
-      name: string,
-      plaintext: string
-    }},
-    summonerSpells: {[key: number]: string}
+  response: any,
+  summonerName: string,
+  summonerId: number | null,
+  region: string,
+  data: Array<IMatchInfo>,
+  champions: {[key: number]: string},
+  itemNames: {[key: number]: {
+    description: string,
+    id: number,
+    name: string,
+    plaintext: string
+  }},
+  summonerSpells: {[key: number]: string}
 }
 
 class App extends React.Component {
@@ -35,6 +35,7 @@ class App extends React.Component {
   }
 
   state = {
+    response: '',
     summonerName: 'sirMerr',
     summonerId: null,
     region: 'NA1',
@@ -45,7 +46,7 @@ class App extends React.Component {
   } as State
 
   async updateData(summonerName : string, region : string) {
-    const data = await window.fetch(`/summoner/na/${summonerName}`);
+    const data = await fetch(`/summoner/na/${summonerName}`);
     const json = await data.json();
 
     this.setState({data: json['matches']});
@@ -63,13 +64,13 @@ class App extends React.Component {
   }
 
   async componentDidMount() {
-    const spellData = await window.fetch(`/spells`);
+    const spellData = await fetch(`/spells`);
     const spells = await spellData.json();
 
-    const itemData = await window.fetch(`/items`);
+    const itemData = await fetch(`/items`);
     const items = await itemData.json();
 
-    const champNameData = await window.fetch(`/champnames`);
+    const champNameData = await fetch(`/champnames`);
     const champs = await champNameData.json();
   
     this.setState({summonerSpells: spells['spells'], champions: champs, itemNames: items})

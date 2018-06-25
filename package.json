@@ -3,24 +3,23 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "client": "react-scripts-ts start",
-    "server": "nodemon -e ts -w ./src/api/server.ts --exec ts-node -O '{\"module\": \"commonjs\"}' src/api/server.ts",
-    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "client": "cd client && react-scripts-ts start",
+    "server": "ts-node -O '{\"module\": \"commonjs\"}' server/index.ts",
+    "start:concurrent": "concurrently \"yarn server\" \"yarn client\"",
+    "start": "yarn server",
     "build": "react-scripts-ts build",
+    "heroku-postbuild": "cd client && yarn && yarn --only=dev --no-shrinkwrap && yarn build",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject"
   },
+  "proxy": "http://localhost:3001/",
   "dependencies": {
-    "axios": "^0.18.0",
-    "bottleneck": "^2.5.0",
     "concurrently": "^3.6.0",
     "cors": "^2.8.4",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "kayn": "^0.8.15",
-    "lodash": "^4.17.10",
     "node-fetch": "^2.1.2",
-    "nodemon": "^1.17.5",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-scripts-ts": "2.16.0",
@@ -33,16 +32,10 @@
     "@material-ui/core": "^1.2.3",
     "@types/dotenv": "^4.0.3",
     "@types/jest": "^23.1.1",
-    "@types/lodash": "^4.14.110",
     "@types/node": "^10.3.4",
     "@types/node-fetch": "^2.1.1",
     "@types/react": "^16.4.1",
     "@types/react-dom": "^16.0.6",
     "typescript": "^2.9.2"
-  },
-  "buildpacks": [
-    {
-      "url": "https://github.com/mars/create-react-app-buildpack"
-    }
-  ]
+  }
 }

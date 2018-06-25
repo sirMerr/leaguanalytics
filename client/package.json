@@ -1,0 +1,12 @@
+{
+  "name": "leaguanalytics.client",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "react-scripts build",
+    "start": "react-scripts-ts start"
+  },
+  "dependencies": {
+    "react-scripts-ts": "2.16.0"
+  }
+}

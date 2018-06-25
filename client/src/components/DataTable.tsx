@@ -5,7 +5,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import TableBody from '@material-ui/core/TableBody';
-import {IMatchInfo} from '../api/interfaces';
+import {IMatchInfo} from '../../../server/interfaces';
 
 interface Props {
   matches?: Array<IMatchInfo>,

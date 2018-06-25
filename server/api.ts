@@ -1,6 +1,6 @@
 
-import {IMatchInfo} from './interfaces';
-import {Kayn, REGIONS, BasicJSCache} from 'kayn';
+import { IMatchInfo } from './interfaces';
+import { Kayn, REGIONS, BasicJSCache } from 'kayn';
 
 const basicCache = new BasicJSCache();
 
