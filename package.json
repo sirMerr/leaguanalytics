@@ -4,10 +4,9 @@
   "private": true,
   "scripts": {
     "client": "cd client && react-scripts-ts start",
-    "server": "ts-node -O '{\"module\": \"commonjs\"}' server/index.ts",
+    "server": "ts-node -O '{\"module\": \"commonjs\"}' index.ts",
     "start:concurrent": "concurrently \"yarn server\" \"yarn client\"",
     "start": "yarn server",
-    "build": "react-scripts-ts build",
     "heroku-postbuild": "cd client && yarn && yarn --only=dev --no-shrinkwrap && yarn build",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject"
@@ -22,7 +21,6 @@
     "node-fetch": "^2.1.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
-    "react-scripts-ts": "2.16.0",
     "redis": "^2.8.0",
     "ts-node": "^7.0.0",
     "@types/cors": "^2.8.4",

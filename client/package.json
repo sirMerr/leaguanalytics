@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "react-scripts build",
+    "build": "react-scripts-ts build",
     "start": "react-scripts-ts start"
   },
   "dependencies": {
