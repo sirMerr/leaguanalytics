@@ -5,7 +5,6 @@
   "scripts": {
     "client": "cd client && react-scripts-ts start",
     "server": "ts-node -O '{\"module\": \"commonjs\"}' index.ts",
-    "start:concurrent": "concurrently \"yarn server\" \"yarn client\"",
     "start": "yarn server",
     "heroku-postbuild": "cd client && yarn && yarn --only=dev --no-shrinkwrap && yarn build",
     "test": "react-scripts-ts test --env=jsdom",
@@ -13,7 +12,6 @@
   },
   "proxy": "http://localhost:3001/",
   "dependencies": {
-    "concurrently": "^3.6.0",
     "cors": "^2.8.4",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
